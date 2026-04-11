@@ -1,32 +1,60 @@
 from television import Television
 
-
-def test_init_values():
+def test_init() -> None:
     tv = Television()
     assert str(tv) == "Power = False, Channel = 0, Volume = 0"
 
-
-def test_power_toggle():
+def test_power_on_off() -> None:
     tv = Television()
     tv.power()
-    assert "Power = True" in str(tv)
+    assert str(tv) == "Power = True, Channel = 0, Volume = 0"
+
     tv.power()
-    assert "Power = False" in str(tv)
+    assert str(tv) == "Power = False, Channel = 0, Volume = 0"
 
+def test_mute_behavior() -> None:
+    tv = Television()
+    tv.power()
+    tv.volume_up()
+    tv.mute()
+    assert str(tv) == "Power = True, Channel = 0, Volume = 0"
 
-def test_channel_up_wrap():
+    tv.mute()
+    assert str(tv) == "Power = True, Channel = 0, Volume = 1"
+
+def test_channel_up_wrap() -> None:
     tv = Television()
     tv.power()
     tv.channel_up()
     tv.channel_up()
     tv.channel_up()
     tv.channel_up()
-    assert "Channel = 0" in str(tv) or "Channel = 1" in str(tv)
+    assert str(tv) == "Power = True, Channel = 0, Volume = 0"
 
-
-def test_volume_up_unmute():
+def test_channel_down_wrap() -> None:
     tv = Television()
     tv.power()
+    tv.channel_down()
+    assert str(tv) == "Power = True, Channel = 3, Volume = 0"
+
+def test_volume_up_limit() -> None:
+    tv = Television()
+    tv.power()
+    tv.volume_up()
+    tv.volume_up()
+    tv.volume_up()
+    assert str(tv) == "Power = True, Channel = 0, Volume = 2"
+
+def test_volume_down_limit() -> None:
+    tv = Television()
+    tv.power()
+    tv.volume_down()
+    assert str(tv) == "Power = True, Channel = 0, Volume = 0"
+
+def test_volume_unmutes() -> None:
+    tv = Television()
+    tv.power()
+    tv.volume_up()
     tv.mute()
     tv.volume_up()
-    assert "Volume = 1" in str(tv)
+    assert str(tv) == "Power = True, Channel = 0, Volume = 2"
