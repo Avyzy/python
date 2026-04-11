@@ -4,54 +4,56 @@ class Television:
     MIN_CHANNEL = 0
     MAX_CHANNEL = 3
 
-    def __init__(self):
-        '''set Tv with defualt settings'''
+    def __init__(self) -> None:
+        """Initialize the TV with default settings."""
         self.__status = False
         self.__muted = False
         self.__volume = Television.MIN_VOLUME
         self.__channel = Television.MIN_CHANNEL
 
-    def power(self):
-        '''turning tv off and on'''
+    def power(self) -> None:
+        """Turn the TV on or off."""
         self.__status = not self.__status
 
-    def mute(self):
-        '''mutes and unmutes when tv is on'''
+    def mute(self) -> None:
+        """Mute or unmute the TV if it is on."""
         if self.__status:
             self.__muted = not self.__muted
 
-    def channel_up(self):
-        '''channel goes up in number an resets when it hits max'''
+    def channel_up(self) -> None:
+        """Increase the channel when the TV is on."""
         if self.__status:
             if self.__channel < Television.MAX_CHANNEL:
                 self.__channel += 1
             else:
                 self.__channel = Television.MIN_CHANNEL
 
-    def channel_down(self):
-        '''channel goes down in number and go back to top when it hits min'''
+    def channel_down(self) -> None:
+        """Decrease the channel when the TV is on."""
         if self.__status:
             if self.__channel > Television.MIN_CHANNEL:
                 self.__channel -= 1
             else:
                 self.__channel = Television.MAX_CHANNEL
 
-    def volume_up(self):
-        '''turns volume up only when unmuted'''
+    def volume_up(self) -> None:
+        """Increase the volume when the TV is on."""
         if self.__status:
             if self.__muted:
                 self.__muted = False
             if self.__volume < Television.MAX_VOLUME:
                 self.__volume += 1
 
-    def volume_down(self):
-        '''turns volume down only when unmuted'''
+    def volume_down(self) -> None:
+        """Decrease the volume when the TV is on."""
         if self.__status:
             if self.__muted:
                 self.__muted = False
             if self.__volume > Television.MIN_VOLUME:
                 self.__volume -= 1
 
-    def __str__(self):
-        '''returns a tring with power, channel and volume'''
+    def __str__(self) -> str:
+        """Return the TV's current state."""
+        if self.__muted:
+            return f"Power = {self.__status}, Channel = {self.__channel}, Volume = 0"
         return f"Power = {self.__status}, Channel = {self.__channel}, Volume = {self.__volume}"
